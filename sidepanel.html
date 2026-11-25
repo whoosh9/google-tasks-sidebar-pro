@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Google Tasks Sidebar</title>
+  <style>
+    :root { color-scheme: light dark; }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; }
+    body { display: flex; flex-direction: column; background: Canvas; color: CanvasText; font: 13px Arial, sans-serif; }
+    .tasks-container {
+      position: relative;
+      flex: 1 1 auto;
+      min-height: 0;
+      width: 100%;
+    }
+    .settings-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 30px;
+      height: 30px;
+      padding: 0;
+      border: 0;
+      border-radius: 6px;
+      color: inherit;
+      background: transparent;
+      cursor: pointer;
+    }
+    .settings-button:hover, .settings-button[aria-expanded="true"] {
+      background: color-mix(in srgb, CanvasText 12%, transparent);
+    }
+    .settings-button svg { width: 19px; height: 19px; }
+    .settings-backdrop {
+      position: absolute;
+      inset: 0;
+      z-index: 4;
+      background: transparent;
+    }
+    .settings-backdrop[hidden] { display: none; }
+    .settings-panel {
+      position: absolute;
+      top: 46px;
+      right: 8px;
+      z-index: 6;
+      width: min(270px, calc(100vw - 16px));
+      padding: 13px;
+      border: 1px solid color-mix(in srgb, CanvasText 20%, transparent);
+      border-radius: 9px;
+      background: Canvas;
+      color: CanvasText;
+      box-shadow: 0 5px 18px rgb(0 0 0 / 24%);
+    }
+    .settings-panel[hidden] { display: none; }
+    .settings-title { margin: 0 0 12px; font-size: 14px; font-weight: 600; }
+    .setting { display: flex; flex-direction: column; gap: 5px; margin-top: 10px; }
+    .setting label { font-size: 12px; color: color-mix(in srgb, CanvasText 75%, transparent); }
+    select {
+      width: 100%; min-width: 0; padding: 7px 8px;
+      border: 1px solid color-mix(in srgb, CanvasText 30%, transparent);
+      border-radius: 6px; background: Canvas; color: CanvasText; font: inherit;
+    }
+    .saved-note { margin: 11px 0 0; font-size: 11px; color: color-mix(in srgb, CanvasText 60%, transparent); }
+    iframe { display: block; width: 100%; height: 100%; min-height: 0; border: 0; background: Canvas; }
+    .settings-button {
+      position: absolute;
+      top: 7px;
+      right: 8px;
+      z-index: 5;
+      background: color-mix(in srgb, Canvas 88%, transparent);
+      border: 1px solid color-mix(in srgb, CanvasText 18%, transparent);
+      box-shadow: 0 1px 4px rgb(0 0 0 / 12%);
+    }
+    iframe.dark-content { filter: invert(1) hue-rotate(180deg); }
+  </style>
+</head>
+<body>
+  <main class="tasks-container">
+    <div id="settingsBackdrop" class="settings-backdrop" hidden></div>
+    <button id="settingsButton" class="settings-button" type="button" aria-label="Settings" aria-expanded="false" aria-controls="settingsPanel" title="Settings">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M12 8.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Z"/>
+        <path d="m19.4 15 .1.1a1.7 1.7 0 0 1-2.4 2.4l-.1-.1a1.7 1.7 0 0 0-2.9 1.2v.2a1.7 1.7 0 0 1-3.4 0v-.2a1.7 1.7 0 0 0-2.9-1.2l-.1.1a1.7 1.7 0 0 1-2.4-2.4l.1-.1a1.7 1.7 0 0 0-1.2-2.9H4a1.7 1.7 0 0 1 0-3.4h.2a1.7 1.7 0 0 0 1.2-2.9l-.1-.1a1.7 1.7 0 0 1 2.4-2.4l.1.1a1.7 1.7 0 0 0 2.9-1.2V2a1.7 1.7 0 0 1 3.4 0v.2a1.7 1.7 0 0 0 2.9 1.2l.1-.1a1.7 1.7 0 0 1 2.4 2.4l-.1.1a1.7 1.7 0 0 0 1.2 2.9h.2a1.7 1.7 0 0 1 0 3.4h-.2a1.7 1.7 0 0 0-1.2 2.9Z"/>
+      </svg>
+    </button>
+    <section id="settingsPanel" class="settings-panel" aria-label="Settings" hidden>
+      <h2 class="settings-title">Settings</h2>
+      <div class="setting">
+        <label for="account">Google account</label>
+        <select id="account" aria-label="Google account">
+          <option value="0">Account 0</option>
+          <option value="1">Account 1</option>
+          <option value="2">Account 2</option>
+          <option value="3">Account 3</option>
+          <option value="4">Account 4</option>
+          <option value="5">Account 5</option>
+        </select>
+      </div>
+      <div class="setting">
+        <label for="theme">Theme</label>
+        <select id="theme" aria-label="Theme">
+          <option value="light">Light</option>
+          <option value="dark">Dark</option>
+          <option value="system">System default</option>
+        </select>
+      </div>
+      <p class="saved-note">Settings are saved automatically.</p>
+    </section>
+  <iframe id="tasks" title="Google Tasks"></iframe>
+  </main>
+  <script src="sidepanel.js"></script>
+</body>
+</html>
