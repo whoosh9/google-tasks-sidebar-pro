@@ -14,7 +14,21 @@ Google Tasks Sidebar Pro makes it easier to stay organized while browsing. View 
 
 ## Screenshots
 
-Screenshots coming soon.
+### Main view and settings
+
+![Google Tasks Sidebar Pro – Main view and settings](screenshots/Edge-Store-Screenshot-1.png)
+
+### Google Tasks in the browser sidebar
+
+![Google Tasks in the browser sidebar](screenshots/Edge-Store-Screenshot-2.png)
+
+### Account selection
+
+![Google account selection](screenshots/Edge-Store-Screenshot-3.png)
+
+### Theme settings
+
+![Theme selection](screenshots/Edge-Store-Screenshot-4.png)
 
 ## Installation
 
